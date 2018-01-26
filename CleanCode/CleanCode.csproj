@@ -57,11 +57,11 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="MagicNumbers\MagicNumbers.cs" />
-    <Compile Include="LongParameterList\LongParameterList.cs" />
+    <Compile Include="03 LongParameterList\LongParameterList.cs" />
     <Compile Include="01 Names\Names.cs" />
     <Compile Include="NestedConditionals\NestedConditionals.cs" />
     <Compile Include="OutputParameters\OutputParameters.cs" />
-    <Compile Include="PoorMethodSignatures\PoorMethodSignatures.cs" />
+    <Compile Include="02 PoorMethodSignatures\PoorMethodSignatures.cs" />
     <Compile Include="PoorOrderingOfClassMembers\PoorOrderingOfClassMembers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwitchStatements\Customer.cs" />

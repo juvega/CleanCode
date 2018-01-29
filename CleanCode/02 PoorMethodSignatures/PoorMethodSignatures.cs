@@ -9,7 +9,7 @@ namespace CleanCode.PoorMethodSignatures
         {
             var userService = new UserService();
 
-            var user = userService.Login("username");
+            var user = userService.Login("username", "password");
             var anotherUser = userService.GetUser("username");
         }
     }
@@ -27,7 +27,7 @@ namespace CleanCode.PoorMethodSignatures
 
         }
 
-        public User Login(string username)
+        public User Login(string username, string password)
         {
             // Check if there is a user with the given username and password in db
             // If yes, set the last login date 

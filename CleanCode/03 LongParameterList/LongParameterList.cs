@@ -6,47 +6,56 @@ namespace CleanCode.LongParameterList
 {
     public class LongParameterList
     {
-        public IEnumerable<Reservation> GetReservations(
-           DateTime dateFrom, DateTime dateTo,
-           User user, int locationId,
-           LocationType locationType, int? customerId = null)
+        public class DateRange
         {
-            if (dateFrom >= DateTime.Now)
+            public DateTime dateFrom { get; set; }
+            public DateTime dateTo { get; set; }
+        }
+
+        public class ReservationQuery
+        {
+            public DateRange DateRange { get; set; }
+            public User User { get; set; }
+            public int LocationId { get; set; }
+            public LocationType LocationType { get; set; }
+            public int? CustomerId { get; set; }
+        }
+
+        public IEnumerable<Reservation> GetReservations(ReservationQuery reservationQuery)
+        {
+            if (reservationQuery.DateRange.dateFrom >= DateTime.Now)
                 throw new ArgumentNullException("dateFrom");
-            if (dateTo <= DateTime.Now)
+            if (reservationQuery.DateRange.dateTo <= DateTime.Now)
                 throw new ArgumentNullException("dateTo");
 
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Reservation> GetUpcomingReservations(
-            DateTime dateFrom, DateTime dateTo,
-            User user, int locationId,
-            LocationType locationType)
+        public IEnumerable<Reservation> GetUpcomingReservations(ReservationQuery reservationQuery)
         {
-            if (dateFrom >= DateTime.Now)
+            if (reservationQuery.DateRange.dateFrom >= DateTime.Now)
                 throw new ArgumentNullException("dateFrom");
-            if (dateTo <= DateTime.Now)
+            if (reservationQuery.DateRange.dateTo <= DateTime.Now)
                 throw new ArgumentNullException("dateTo");
 
             throw new NotImplementedException();
         }
 
-        private static Tuple<DateTime, DateTime> GetReservationDateRange(DateTime dateFrom, DateTime dateTo, ReservationDefinition sd)
+        private static Tuple<DateTime, DateTime> GetReservationDateRange(DateRange dateRange, ReservationDefinition sd)
         {
-            if (dateFrom >= DateTime.Now)
+            if (dateRange.dateFrom >= DateTime.Now)
                 throw new ArgumentNullException("dateFrom");
-            if (dateTo <= DateTime.Now)
+            if (dateRange.dateTo <= DateTime.Now)
                 throw new ArgumentNullException("dateTo");
 
             throw new NotImplementedException();
         }
 
-        public void CreateReservation(DateTime dateFrom, DateTime dateTo, int locationId)
+        public void CreateReservation(DateRange dateRange, int locationId)
         {
-            if (dateFrom >= DateTime.Now)
+            if (dateRange.dateFrom >= DateTime.Now)
                 throw new ArgumentNullException("dateFrom");
-            if (dateTo <= DateTime.Now)
+            if (dateRange.dateTo <= DateTime.Now)
                 throw new ArgumentNullException("dateTo");
 
             throw new NotImplementedException();

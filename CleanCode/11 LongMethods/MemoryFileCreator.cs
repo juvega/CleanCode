@@ -25,21 +25,21 @@ namespace FooFoo
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    WriteRow(dt, sw, dr);
+                    WriteRow(dt, dr, sw);
                     sw.WriteLine();
                 }
             }
 
-            private static void WriteRow(DataTable dt, StreamWriter sw, DataRow dr)
+            private static void WriteRow(DataTable dt, DataRow dr, StreamWriter sw)
             {
                 for (int i = 0; i < dt.Columns.Count; i++)
                 {
-                    WriteCell(sw, dr, i);
-                    WriteSeparatorIfRequired(dt, sw, i);
+                    WriteCell(dr, i, sw);
+                    WriteSeparatorIfRequired(dt, i, sw);
                 }
             }
 
-            private static void WriteSeparatorIfRequired(DataTable dt, StreamWriter sw, int i)
+            private static void WriteSeparatorIfRequired(DataTable dt, int i, StreamWriter sw)
             {
                 if (i < dt.Columns.Count - 1)
                 {
@@ -47,7 +47,7 @@ namespace FooFoo
                 }
             }
 
-            private static void WriteCell(StreamWriter sw, DataRow dr, int i)
+            private static void WriteCell(DataRow dr, int i, StreamWriter sw)
             {
                 if (!Convert.IsDBNull(dr[i]))
                 {

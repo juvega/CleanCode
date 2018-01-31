@@ -11,7 +11,8 @@ namespace FooFoo
         > things that are not related, should not be together.
         */
 
-        private readonly MemoryFileCreator memoryFileCreator = new MemoryFileCreator();
+        private readonly DataTableToCsvMapper _dataTableToCsvMapper = new DataTableToCsvMapper();
+        private readonly TableReader _tableReader = new TableReader();
         protected void Page_Load(object sender, EventArgs e)
         {            
             ClearResponse();
@@ -21,7 +22,7 @@ namespace FooFoo
 
         private byte[] GetCsv()
         {
-            System.IO.MemoryStream ms = memoryFileCreator.CreateMemoryFile();
+            System.IO.MemoryStream ms = _dataTableToCsvMapper.Map(_tableReader.GetDataTable());
             byte[] byteArray = ms.ToArray();
             ms.Flush();
             ms.Close();

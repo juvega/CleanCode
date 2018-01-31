@@ -8,71 +8,73 @@ namespace FooFoo
 {
     public partial class Download
     {
-        public class MemoryFileCreator
+        public class DataTableToCsvMapper
         {
-            public System.IO.MemoryStream CreateMemoryFile()
+            public MemoryStream Map(DataTable dataTable)
             {
-                MemoryStream ReturnStream = new MemoryStream();
+                MemoryStream ReturnStream = new MemoryStream();                
+                StreamWriter sw = new StreamWriter(ReturnStream);
+                WriteColumnsNames(dataTable, sw);
+                WriteRows(dataTable, sw);
+                sw.Flush();
+                sw.Close();
+                return ReturnStream;
+            }
 
-                try
+            private static void WriteRows(DataTable dt, StreamWriter sw)
+            {
+                foreach (DataRow dr in dt.Rows)
                 {
-                    string strConn = ConfigurationManager.ConnectionStrings["FooFooConnectionString"].ToString();
-                    SqlConnection conn = new SqlConnection(strConn);
-                    SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM [FooFoo] ORDER BY id ASC", conn);
-                    DataSet ds = new DataSet();
-                    da.Fill(ds, "FooFoo");
-                    DataTable dt = ds.Tables["FooFoo"];
-
-                    //Create a streamwriter to write to the memory stream
-                    StreamWriter sw = new StreamWriter(ReturnStream);
-
-                    int iColCount = dt.Columns.Count;
-
-                    for (int i = 0; i < iColCount; i++)
+                    for (int i = 0; i < dt.Columns.Count; i++)
                     {
-                        sw.Write(dt.Columns[i]);
-                        if (i < iColCount - 1)
+
+                        if (!Convert.IsDBNull(dr[i]))
+                        {
+                            string str = String.Format("\"{0:c}\"", dr[i].ToString()).Replace("\r\n", " ");
+                            sw.Write(str);
+                        }
+                        else
+                        {
+                            sw.Write("");
+                        }
+
+                        if (i < dt.Columns.Count - 1)
                         {
                             sw.Write(",");
                         }
                     }
-
                     sw.WriteLine();
-                    int intRows = dt.Rows.Count;
-
-                    // Now write all the rows.
-                    foreach (DataRow dr in dt.Rows)
-                    {
-                        for (int i = 0; i < iColCount; i++)
-                        {
-
-                            if (!Convert.IsDBNull(dr[i]))
-                            {
-                                string str = String.Format("\"{0:c}\"", dr[i].ToString()).Replace("\r\n", " ");
-                                sw.Write(str);
-                            }
-                            else
-                            {
-                                sw.Write("");
-                            }
-
-                            if (i < iColCount - 1)
-                            {
-                                sw.Write(",");
-                            }
-                        }
-                        sw.WriteLine();
-                    }
-
-                    sw.Flush();
-                    sw.Close();
                 }
-                catch (Exception Ex)
-                {
-                    throw Ex;
-                }
-                return ReturnStream;
             }
+
+            private static void WriteColumnsNames(DataTable dt, StreamWriter sw)
+            {
+                for (int i = 0; i < dt.Columns.Count; i++)
+                {
+                    sw.Write(dt.Columns[i]);
+                    if (i < dt.Columns.Count - 1)
+                    {
+                        sw.Write(",");
+                    }
+                }
+                sw.WriteLine();
+            }
+
+            
+        }
+    }
+
+    public class TableReader
+    {
+        public DataTable GetDataTable()
+        {
+            string strConn = ConfigurationManager.ConnectionStrings["FooFooConnectionString"].ToString();
+            SqlConnection conn = new SqlConnection(strConn);
+            SqlDataAdapter da = new SqlDataAdapter("SELECT * FROM [FooFoo] ORDER BY id ASC", conn);
+            DataSet ds = new DataSet();
+            da.Fill(ds, "FooFoo");
+            DataTable dt = ds.Tables["FooFoo"];
+            return dt;
         }
     }
 }

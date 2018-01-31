@@ -39,19 +39,19 @@ namespace FooFoo
                 }
             }
 
-            private static void WriteSeparatorIfRequired(DataTable dt, int i, StreamWriter sw)
+            private static void WriteSeparatorIfRequired(DataTable dt, int index, StreamWriter streamWritter)
             {
-                if (i < dt.Columns.Count - 1)
+                if (index < dt.Columns.Count - 1)
                 {
-                    sw.Write(",");
+                    streamWritter.Write(",");
                 }
             }
 
-            private static void WriteCell(DataRow dr, int i, StreamWriter sw)
+            private static void WriteCell(DataRow dataRow, int index, StreamWriter sw)
             {
-                if (!Convert.IsDBNull(dr[i]))
+                if (!Convert.IsDBNull(dataRow[index]))
                 {
-                    string str = String.Format("\"{0:c}\"", dr[i].ToString()).Replace("\r\n", " ");
+                    string str = String.Format("\"{0:c}\"", dataRow[index].ToString()).Replace("\r\n", " ");
                     sw.Write(str);
                 }
                 else

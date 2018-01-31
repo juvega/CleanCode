@@ -53,7 +53,7 @@
     <Compile Include="11 LongMethods\MemoryFileCreator.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="FullRefactoring\Example1.cs">
+    <Compile Include="12 FullRefactoring\Example1.cs">
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="11 LongMethods\Example1.cs">
